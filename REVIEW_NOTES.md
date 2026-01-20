@@ -97,6 +97,7 @@ await _client.CreateEventAsync(payload, ct);
 ```
 
 Also, the URL string can be stored in a clearly named variable to make it easier to read, and logging that's specific to "talking to Google" can live inside the client.
+This makes it easy for adding retries and backoff later at the client level as well.
 
 ### `src/CalendarApp/CalendarScheduler.cs:15` -> `CalendarId` shouldn't be a static hidden setting
 Even if "primary" is the default, it shouldn't be hardcoded as global state. I'd inject it from configuration (same as the token), so later we can support multiple calendars or per-user calendars.
