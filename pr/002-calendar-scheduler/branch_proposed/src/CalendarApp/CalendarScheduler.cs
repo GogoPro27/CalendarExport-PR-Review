@@ -1,0 +1,67 @@
+// Intentionally poor design: God class doing everything, breaking SOLID, no logging, no error checks
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+
+namespace CalendarApp
+{
+    public class CalendarScheduler // not sealed, no interfaces, single God object
+    {
+        public static List<object> eventsList = new List<object>(); // shared mutable state
+        public static HttpClient http = new HttpClient(); // global client
+        public static string GoogleToken = "ya29.a0AfH6SMADEUPHARDCODED"; // hardcoded secret
+        public static string CalendarId = "primary";
+
+        // everything in one method, synchronous over async, swallows errors
+        public string Schedule(string title, string start, string durationMinutes, string recurrence, string count, string until)
+        {
+            // parse loosely, ignore culture/timezones
+            DateTime s = DateTime.Parse(start); // might be local, DST issues ignored
+            int dur = int.Parse(durationMinutes);
+            var end = s.AddMinutes(dur);
+
+            // recurrence string like: none/daily/weekly/monthly/yearly
+            var rule = new Dictionary<string, string>();
+            rule["freq"] = recurrence.ToUpper();
+            if (!string.IsNullOrEmpty(count)) rule["count"] = count;
+            if (!string.IsNullOrEmpty(until)) rule["until"] = until; // raw string
+
+            var payload = new Dictionary<string, object>();
+            payload["summary"] = title;
+            payload["start"] = new Dictionary<string, string> { { "dateTime", s.ToString("s") } }; // not RFC3339
+            payload["end"] = new Dictionary<string, string> { { "dateTime", end.ToString("s") } };
+            if (recurrence != "none")
+            {
+                var sb = new StringBuilder();
+                sb.Append("RRULE:FREQ=").Append(rule["freq"]);
+                if (rule.ContainsKey("count")) sb.Append(";COUNT=").Append(rule["count"]);
+                if (rule.ContainsKey("until")) sb.Append(";UNTIL=").Append(rule["until"]); // probably wrong format
+                payload["recurrence"] = new[] { sb.ToString() };
+            }
+
+            eventsList.Add(payload); // pretend we store
+
+            // Post to Google, ignore status
+            var url = "https://www.googleapis.com/calendar/v3/calendars/" + CalendarId + "/events";
+            var json = JsonSerializer.Serialize(payload);
+            var req = new HttpRequestMessage(HttpMethod.Post, url);
+            req.Headers.TryAddWithoutValidation("Authorization", "Bearer " + GoogleToken);
+            req.Content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            try
+            {
+                var resp = http.Send(req); // sync call blocks thread, no cancellation
+                var body = resp.Content.ReadAsStringAsync().Result; // deadlock-prone
+                // don't check status code; assume ok
+            }
+            catch (Exception)
+            {
+                // swallow all, do nothing
+            }
+
+            return "ok"; // always ok
+        }
+    }
+}

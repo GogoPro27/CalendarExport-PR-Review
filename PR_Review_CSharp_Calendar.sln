@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.36101.20
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarApp", "src\CalendarApp\CalendarApp.csproj", "{11A2B6E9-41E3-4B6C-8E7E-A4D8D53E1B21}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CalendarApp.Tests", "tests\CalendarApp.Tests\CalendarApp.Tests.csproj", "{B6EAF4E2-0797-44B3-B0E6-7F89D64C5578}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{11A2B6E9-41E3-4B6C-8E7E-A4D8D53E1B21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11A2B6E9-41E3-4B6C-8E7E-A4D8D53E1B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11A2B6E9-41E3-4B6C-8E7E-A4D8D53E1B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11A2B6E9-41E3-4B6C-8E7E-A4D8D53E1B21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6EAF4E2-0797-44B3-B0E6-7F89D64C5578}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6EAF4E2-0797-44B3-B0E6-7F89D64C5578}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6EAF4E2-0797-44B3-B0E6-7F89D64C5578}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6EAF4E2-0797-44B3-B0E6-7F89D64C5578}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4075F664-C67E-4590-81E2-92B9372B7AF8}
+	EndGlobalSection
+EndGlobal
