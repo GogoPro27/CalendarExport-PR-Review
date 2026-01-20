@@ -137,9 +137,7 @@ Not a must fix, but it makes testing and future changes easier.
 
 ## Tests
 
-There are already some basic tests in place under `CalendarApp.Tests`, mainly covering recurrence expansion logic in `EventExpander`. These tests are a good starting point and help verify that simple daily and monthly recurrence cases behave as expected.
-
-That said, given the scope of this PR, additional tests should be added to cover areas that are currently untested but critical:
+Additional tests should be added to cover areas that are currently untested but critical:
 - **Time handling and time zones** – tests for non-UTC offsets and DST boundaries, since calendar behavior is very sensitive to these cases.
 - **Recurrence validation** – tests for invalid or unsupported recurrence values, case-insensitive inputs, and edge cases like using both Count and Until.
 - **Error handling** – tests that verify failures from the Google Calendar API are not swallowed and are properly surfaced.
